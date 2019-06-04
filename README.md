@@ -53,7 +53,6 @@ Let's take a look. In this repository, you'll see a file called
 ## Instructions Part I
 
 <div class="readme-content-test--show-when-active">
-
 1. Ensure that you're in the project "root" directory by issuing `cd` into the cloned directory.
 
 2. Verify that 'pry' is installed: `gem list pry`: you should see something like
