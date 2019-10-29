@@ -67,7 +67,12 @@ Let's take a look. In this repository, you'll see a file called
 
 2. Install Pry on your computer by navigating to your home directory (`cd ~` in
    your terminal) and execute `gem install pry`. (again, no need to do this if
-   you are working in the IDE)
+   you are working in the IDE).
+  
+**Aside**: If you are receiving an error that mentions `pry-rescue` when running
+the tests, installing the latest version with `gem install pry-rescue` should
+resolve this error. Similarly, if you receive an error related to `diff-lcs`
+when testing, running `gem cleanup diff-lcs` should resolve this error.
 
 </div>
 
