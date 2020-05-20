@@ -9,7 +9,7 @@ a program.
 
 1. Explain how Pry is a more flexible REPL than IRB.
 2. Install Pry on your computer. (already installed for IDE users)
-3. Debug a program using binding.pry within the body of your file.
+3. Debug a program using `binding.pry` within the body of your file.
 
 ## What Is a REPL?
 
@@ -29,7 +29,7 @@ in IRB, you have to write in IRB or copy and paste into IRB. Pry, on the other
 hand, is like a REPL that you can inject into your program.
 
 Pry is far more flexible than IRB. Once you install the Pry library (via the Pry
-gem—we'll walk through installation in a bit), you can use the following line
+gem — we'll walk through installation in a bit), you can use the following line
 `binding.pry` anywhere in your code.
 
 ## Wait... What's 'binding'?
@@ -52,29 +52,20 @@ Let's take a look. In this repository, you'll see a file called
 
 ## Instructions Part I
 
-<div class="readme-content-test--show-when-active">
+1. Ensure that you're in the project "root" directory. If you're using the
+   in-browserr IDE, you should be in the project's root directory when you open
+   the IDE.
 
-1. Ensure that you're in the project "root" directory by issuing `cd` into the cloned directory.
-
-2. Verify that 'pry' is installed: `gem list pry`: you should see something like
-   `pry (0.11.3)`. The LearnIDE already has PRY installed.  
-
-</div>
-
-<div class="readme-content-test--hide-when-active">
-
-1. Fork and clone this repository.
-
-2. Install Pry on your computer by navigating to your home directory (`cd ~` in
-   your terminal) and execute `gem install pry`. (again, no need to do this if
-   you are working in the IDE).
+2. Verify that 'pry' is installed by running `gem list pry` in the terminal. You
+   should see something like `pry (0.11.3)`. If you _do not_ see a version of
+   Pry when running this command, you can install it by running
+   `gem install pry`. The Learn IDE already has Pry installed.
   
-**Aside**: If you are receiving an error that mentions `pry-rescue` when running
-the tests, installing the latest version with `gem install pry-rescue` should
-resolve this error. Similarly, if you receive an error related to `diff-lcs`
-when testing, running `gem cleanup diff-lcs` should resolve this error.
-
-</div>
+> **Aside**: If you are receiving an error that mentions `pry-rescue` when
+> running the tests, installing the latest version with `gem install pry-rescue`
+> should resolve this error. Similarly, if you receive an error related to
+> `diff-lcs` when testing, running `gem cleanup diff-lcs` should resolve this
+> error.
 
 3. Look at the code in `lib/pry_is_awesome.rb`
 
@@ -98,9 +89,9 @@ when testing, running `gem cleanup diff-lcs` should resolve this error.
    Here we are requiring `pry`, *which you must do to use pry*, defining a
    method, and then calling that method.
 
-4. In the directory of this repo, in your terminal, run the file by typing `ruby
-   lib/pry_is_awesome.rb`. Now, look at your terminal. You should see something
-   like this:
+4. In the directory of this repo, in your terminal, run the file by typing
+   `ruby lib/pry_is_awesome.rb`. Now, look at your terminal. You should see
+   something like this:
 
     ```ruby
       3: def prying_into_the_method
@@ -127,10 +118,10 @@ when testing, running `gem cleanup diff-lcs` should resolve this error.
    Now, in the terminal, in your pry console, type the variable name
    `this_variable_hasnt_been_interpreted_yet`. You should see a return value of
    `nil`. That's because the binding you placed on line 7 actually froze the
-   program on line 7 and the variable you just called hasn't been interpreted
-   yet. Consequently, our REPL doesn't know about it. Now, in the terminal, type
-   `exit`, and you'll leave your pry console and the program will continue to
-   execute.
+   program on line 7 but the variable you just called is declared  on line 8. It
+   hasn't been interpreted yet. Consequently, our REPL doesn't know about it.
+   Now, in the terminal, type `exit`, and you'll leave your pry console and the
+   program will continue to execute.
 
 ## Instructions Part II: Using Pry to Debug
 
@@ -141,7 +132,20 @@ down onto your computer, you'll see a `spec` folder containing a file
 `pry_debugging_spec.rb`. This is a test for the file `lib/pry_debugging.rb`.
 
 In `pry_debugging.rb`, we have a broken method. Run `learn` to see the failing
-test.
+test. The failed test should look like this:
+
+```text
+Failures:
+
+  1) #plus_two takes in a number as an argument and returns the sum of that number and 2
+     Failure/Error: expect(plus_two(3)).to eq(5)
+
+       expected: 5
+            got: 3
+
+       (compared using ==)
+     # ./spec/pry_debugging_spec.rb:6:in `block (2 levels) in <top (required)>'
+```
 
 Oh no! A broken program! Luckily, we have Pry required at the top of our
 `spec/pry_debugging_spec.rb` file, and we know how to use it. Let's place a
@@ -170,11 +174,8 @@ From: /Users/sophiedebenedetto/Desktop/Dev/Ruby-Methods_and_Variables/pry-readme
 [1] pry(#<RSpec::ExampleGroups::PlusTwo>)>
 ```
 
-The test is calling our `plus_two` method with the argument, `num`,  the value
-of `num` set to `3`, and the expected return value of `5`. We remember that the
-return value of a method in Ruby is generally the value of the last line of the
-method. Let's check our current return value by typing `num` into our Pry
-console. You should see something like this:
+The test is calling our `plus_two` method with the argument, `num`. While in
+Pry, we can verify the value of `num` set to `3` by typing in the variable name.
 
 ```ruby
 [1] pry(#<RSpec::ExampleGroups::PlusTwo>)> num
@@ -182,24 +183,27 @@ console. You should see something like this:
 [2] pry(#<RSpec::ExampleGroups::PlusTwo>)>
 ```
 
-By checking the value of the variable on the last line of our method inside our
-pry console, we can see that `num` is set to `3` and therefore the method is
-returning `3`.
+We know from running `learn` a moment ago that the test is expecting to receive
+`5`, but instead got `3`. Hmm...
+
+Remember that the return value of a method in Ruby is generally the value of the
+last line of the method. By checking the value of `num` on the last line of our
+method inside our Pry console, we can see that `num` is set to `3` and therefore
+the method is returning `3`.
 
 How can we fix this method so that it behaves in the expected way? This method
 is called `plus_two` and the test is expecting a return value of `5`, given a
 `num` of `3`. Looks like our method should return the *sum* of the original
-number (`3`) plus 2. But our method, as it currently stands, is returning the
-original number. Play around with it inside your Pry console and get the test to
-pass. Remember to type `exit` in your terminal and then remove your
-`binding.pry` when you think your test will pass.
+number (`3`) plus 2. However, our method, as it currently stands, is just
+returning the original number. Play around with it inside your Pry console and
+get the test to pass. Remember to type `exit` in your terminal. When you think
+you've got the solution, **remove your `binding.pry` from the method** and run
+`learn` to retest the code.
 
-Once you have your test passing, make sure the `binding.pry` line has been
-removed and add commit and push your changes. Then open a pull request.
+Once you have your test passing, run `learn submit` to register completion of
+this lab.
 
 ## Resources
 
 * [4-Minute Guide to Debugging with Pry by Dick Ward](https://medium.com/@TheDickWard/an-intro-to-ruby-debugging-featuring-pry-c931fde69069)
 * [Pry documentation](http://pryrepl.org/)
-
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/debugging-with-pry' title='Debugging with Pry'>Debugging with Pry</a> on Learn.co and start learning to code for free.</p>
